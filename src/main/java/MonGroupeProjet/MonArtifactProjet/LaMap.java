@@ -14,6 +14,7 @@ public class LaMap {
 	private static int nbrTotal;
 	private static int compteur = 0;
 	private int compteurLocal;
+	private Object lock = new Object();
 
 	LaMap() {
 	}
@@ -65,7 +66,9 @@ public class LaMap {
 		Scanner scan = new Scanner(texteInitial);
 		while (scan.hasNext()) {
 			nbr++;
-			nbrTotal++;
+			synchronized (lock) {
+				nbrTotal++;
+			}
 			word = scan.next();
 			if (hm.containsKey(word)) {
 				hm.put(word, hm.get(word) + 1);
@@ -88,9 +91,9 @@ public class LaMap {
 	public String toString() {
 		// Set<String> mots = hm.keySet();
 		// "Key : count\n"
-		StringBuilder sb = new StringBuilder();
-
-		hm.entrySet().forEach(entry -> consume(entry, sb));
+		// StringBuilder sb = new StringBuilder();
+		//
+		// hm.entrySet().forEach(entry -> consume(entry, sb));
 
 		// for (Entry<String, Integer> entry : hm.entrySet()) {
 		// sb.append(entry.getKey()).append(':').append(entry.getValue()).append('\n');
@@ -100,7 +103,7 @@ public class LaMap {
 		// hm.forEach(null);
 
 		// /StringJoiner text = new StringJoiner(" ");
-		return sb.toString();
+		// return sb.toString();
 
 		//// hsFromHm();
 		//// Iterator<String> iterator = hs.iterator();
@@ -113,9 +116,8 @@ public class LaMap {
 		//// text.add("\n");
 		//// }
 		//// return text.toString();
-		// String resultat = String.format("nbr%d : %d\nnbr Total : %d",
-		//// compteurLocal, nbr, nbrTotal);
-		// return resultat;
+		String resultat = String.format("nbr%d : %d\nnbr Total : %d", compteurLocal, nbr, nbrTotal);
+		return resultat;
 	}
 
 	// public void run() {

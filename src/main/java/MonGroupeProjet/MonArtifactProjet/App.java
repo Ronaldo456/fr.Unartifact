@@ -1,6 +1,11 @@
 package MonGroupeProjet.MonArtifactProjet;
 
 import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Hello world!
@@ -8,6 +13,21 @@ import java.io.IOException;
  */
 public class App {
 	public static void main(String[] args) throws IOException, InterruptedException {
+
+		// java.util.logging.SimpleFormatter.format="%5$s,%2$s,%4$s%n";
+		FileHandler h = new FileHandler("%t/myApp_%g.log", 1000, 3);
+		h.setFormatter(new SimpleFormatter());
+		LogManager lm = LogManager.getLogManager();
+		Logger logger = lm.getLogger(Logger.GLOBAL_LOGGER_NAME);
+		logger.addHandler(h);
+		logger.setLevel(Level.ALL);
+		logger.log(Level.CONFIG, "My first log message");
+		logger.warning("This isn't good !");
+		logger.entering("MonGroupeProjet.MonArtifactProjet", "my Method");
+
+		logger.logp(Level.INFO, "MonGroupeProjet.MonArtifactProjet", "my Method", "How are you feeling?");
+		logger.exiting("MonGroupeProjet.MonArtifactProjet", "my Method");
+
 		String texteInitial = "Rome (en italien : Roma, prononcé ['ro?ma]) est\n la capitale de l'Italie depuis 1871. Située au centre-ouest de la péninsule "
 				+ "italienne, sur les côtes de la mer Tyrrhénienne, elle est également la capitale de la région du Latium, et fut celle de l'Empire romain durant plusieurs "
 				+ "siècles.\n En 2014, elle compte 2 869 461 habitants établis sur 1 285 km², ce qui fait d'elle la commune la plus peuplée d'Italie et la plus étendue d'Europe "
@@ -44,9 +64,11 @@ public class App {
 		Thread thread2 = new Thread(map2);
 		thread.start();
 		thread2.start();
-
 		thread.join();
 		thread2.join();
+		logger.log(Level.SEVERE, "Another message");
+		System.out.println(logger.getLevel().intValue());
+		System.out.println(Level.CONFIG.intValue());
 
 		// System.out.println(map1.getNbrTotal());
 
