@@ -1,8 +1,9 @@
 package MonGroupeProjet.MonArtifactProjet;
 
-import org.junit.Test;
+import static org.junit.Assert.fail;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class LaGrandeClasseTest {
 
@@ -15,6 +16,11 @@ public class LaGrandeClasseTest {
 
 		Assert.assertEquals(total, 2);
 
+	}
+
+	@Test
+	public void failingTest() {
+		fail();
 	}
 
 }
